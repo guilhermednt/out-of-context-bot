@@ -1,0 +1,23 @@
+{
+  "name": "out-of-context-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guilhermednt/out-of-context-bot.git"
+  },
+  "author": "Guilherme Donato",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guilhermednt/out-of-context-bot/issues"
+  },
+  "homepage": "https://github.com/guilhermednt/out-of-context-bot#readme",
+  "dependencies": {
+    "telegraf": "^3.22.1",
+    "twitter": "^1.7.1"
+  }
+}
