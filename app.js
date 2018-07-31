@@ -2,16 +2,24 @@ const config = require('./config')
 const Twitter = require('twitter')
 const Telegraf = require('telegraf')
 
+const twitter = new Twitter(config.twitter.credentials)
+
 console.log(`Initializing Telegram bot...`)
 const bot = new Telegraf(config.telegram.token)
 
-const tweet = (ctx, msg) => {
+const postTweet = (ctx, msg) => {
     const from = ctx.message.from.username
     console.log(`Tweet from ${from}: ${msg}`)
 
-    // TODO: send tweet and reply with link to it
-
-    return ctx.replyWithHTML(`Tweeting <pre>${msg}</pre>`)
+    twitter.post('statuses/update', {status: msg})
+        .then(tweet => {
+            const uri = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
+            ctx.replyWithHTML(`<a href="${uri}">Tweet posted</a> <pre>${msg}</pre>`)
+        })
+        .catch(err => {
+            ctx.replyWithHTML(`Error while tweeting: <pre>${err}</pre>`)
+            console.error(err)
+        })
 }
 
 bot.command('tweet', ctx => {
@@ -24,11 +32,10 @@ bot.command('tweet', ctx => {
     }
     const msg = text.replace(/^\/tweet ?/, '')
 
-    console.log(ctx.message)
     if (msg.length <= 3) {
         return
     }
-    return tweet(ctx, msg)
+    return postTweet(ctx, msg)
 })
 
 bot.startPolling()
