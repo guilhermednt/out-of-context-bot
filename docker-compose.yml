@@ -1,0 +1,6 @@
+version: '3'
+
+services:
+  out_of_context_bot:
+    build: ./
+    env_file: .env
