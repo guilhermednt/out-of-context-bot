@@ -4,3 +4,4 @@ services:
   out_of_context_bot:
     build: ./
     env_file: .env
+    restart: always
