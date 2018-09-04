@@ -38,5 +38,21 @@ bot.command('tweet', ctx => {
     return postTweet(ctx, msg)
 })
 
+bot.command('ping', ctx => {
+    let isGroup = ctx.chat.type === 'group'
+    let from = ctx.message.from.username
+    let groupLog = isGroup?` on group ${ctx.chat.title} (${ctx.chat.id})`:''
+    console.log(`Ping from ${from}`+groupLog)
+
+    let isOwner = from === config.telegram.owner_username
+    let isValidGroup = isGroup && config.telegram.allowed_chat_ids.indexOf(ctx.chat.id+'') > -1
+
+    if (isOwner || isValidGroup) {
+        return ctx.replyWithHTML(`I'm <strong>alive</strong>!`)
+    } else {
+        return ctx.replyWithHTML(`Who are you?!`)
+    }
+})
+
 bot.startPolling()
 console.log(`Bot ready!`)
